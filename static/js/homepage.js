@@ -1,15 +1,8 @@
 if (getCookie("USER") == "") {
   window.location = "login.html";
 }
-getSoilHuminity();
-getHuminity();
-getTemperature();
-getRainForecast();
-getTimer();
-getDataHHT();
-getPump();
-getAutoMode();
-getTresholdSoilHuminity();
+loadData()
+
 // get data
 function getPump() {
   var myHeaders = new Headers();
@@ -170,7 +163,7 @@ function getDataHHT() {
             title: "Bảng dữ liệu độ ẩm, nhiệt độ, độ ẩm đất trong ngày",
             subtitle: "",
           },
-          width: 1000,
+          width: 900,
           height: 500,
         };
 
@@ -398,4 +391,25 @@ function rangeSlide(value) {
       console.log(result);
     })
     .catch((error) => console.log("error", error));
+}
+function loadData(){
+  getSoilHuminity();
+  getHuminity();
+  getTemperature();
+  getRainForecast();
+  getTimer();
+  getDataHHT();
+  getPump();
+  getAutoMode();
+  getTresholdSoilHuminity();
+  setTimeout(loadData1m, 60000);
+  setTimeout(loadData1h, 3600000);
+}
+function loadData1m(){
+  getSoilHuminity();
+  getHuminity();
+  getTemperature();
+}
+function loadData1h(){
+  getRainForecast();
 }
