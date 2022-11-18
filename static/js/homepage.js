@@ -346,6 +346,11 @@ function CT2(elm) {
   } else {
     vl = 0;
   }
+  if(vl == 1 && checkDataRainF()){
+    if(!confirm("Có thể có mưa trong 1 giờ tới. Bạn có chắc chắn muốn tới cây?")){
+      return;
+    }
+  }
   var myHeaders = new Headers();
   myHeaders.append("account_id", getCookie("USER"));
   myHeaders.append("Content-Type", "application/json");
@@ -388,9 +393,16 @@ function rangeSlide(value) {
   fetch("http://localhost:8080/api/set-parameter", requestOptions)
     .then((response) => response.text())
     .then((result) => {
-      console.log(result);
+      // console.log(result);
     })
     .catch((error) => console.log("error", error));
+}
+function checkDataRainF(){
+  var dt = document.getElementById("rainF").innerHTML.split('% ')
+  if(dt[1] != 'Không mưa' && dt[0] >= 90)
+    return true
+  else
+    return false
 }
 function loadData(){
   getSoilHuminity();
@@ -402,8 +414,12 @@ function loadData(){
   getPump();
   getAutoMode();
   getTresholdSoilHuminity();
-  setTimeout(loadData1m, 60000);
-  setTimeout(loadData1h, 3600000);
+  setInterval(loadData1s, 1000);
+  setInterval(loadData1m, 60000);
+  setInterval(loadData1h, 3600000);
+}
+function loadData1s(){
+  getPump();
 }
 function loadData1m(){
   getSoilHuminity();
